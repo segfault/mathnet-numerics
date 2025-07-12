@@ -3,16 +3,18 @@
   "isRoot": true,
   "tools": {
     "paket": {
-      "version": "8.0.3",
+      "version": "9.0.2",
       "commands": [
         "paket"
-      ]
+      ],
+      "rollForward": false
     },
     "fsharp.formatting.commandtool": {
       "version": "11.5.1",
       "commands": [
         "fsdocs"
-      ]
+      ],
+      "rollForward": false
     }
   }
 }

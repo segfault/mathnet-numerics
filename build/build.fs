@@ -346,16 +346,19 @@ let initTargets strongname sign incremental =
 
     // TEST
     Target.create "TestNumerics" ignore
+    Target.create "TestNumericsNET90" (``Test Numerics`` "net9.0")
     Target.create "TestNumericsNET80" (``Test Numerics`` "net8.0")
     Target.create "TestNumericsNET48" (``Test Numerics`` "net48")
     "Build" ==> "TestNumericsNET80" ==> "TestNumerics" |> ignore
     "Build" =?> ("TestNumericsNET48", Environment.isWindows) ==> "TestNumerics" |> ignore
     Target.create "TestFsharp" ignore
+    Target.create "TestFsharpNET90" (``Test FSharp`` "net9.0")
     Target.create "TestFsharpNET80" (``Test FSharp`` "net8.0")
     Target.create "TestFsharpNET48" (``Test FSharp`` "net48")
     "Build" ==> "TestFsharpNET80" ==> "TestFsharp" |> ignore
     "Build" =?> ("TestFsharpNET48", Environment.isWindows) ==> "TestFsharp" |> ignore
     Target.create "TestData" ignore
+    Target.create "TestDataNET90" (``Test Data`` "net9.0")
     Target.create "TestDataNET80" (``Test Data`` "net8.0")
     Target.create "TestDataNET48" (``Test Data`` "net48")
     "Build" ==> "TestDataNET80" ==> "TestData" |> ignore
@@ -365,16 +368,19 @@ let initTargets strongname sign incremental =
     "TestFsharp" ==> "Test" |> ignore
     "TestData" ==> "Test" |> ignore
     Target.create "MklTest" ignore
+    Target.create "MklTestNET90" (``Test MKL`` "net9.0")
     Target.create "MklTestNET80" (``Test MKL`` "net8.0")
     Target.create "MklTestNET48" (``Test MKL`` "net48")
     "MklWinBuild" ==> "MklTestNET80" ==> "MklTest" |> ignore
     "MklWinBuild" =?> ("MklTestNET48", Environment.isWindows) ==> "MklTest" |> ignore
     Target.create "OpenBlasTest" ignore
+    Target.create "OpenBlasTestNET90" (``Test OpenBLAS`` "net9.0")
     Target.create "OpenBlasTestNET80" (``Test OpenBLAS`` "net8.0")
     Target.create "OpenBlasTestNET48" (``Test OpenBLAS`` "net48")
     "OpenBlasWinBuild" ==> "OpenBlasTestNET80" ==> "OpenBlasTest" |> ignore
     "OpenBlasWinBuild" =?> ("OpenBlasTestNET48", Environment.isWindows) ==> "OpenBlasTest" |> ignore
     Target.create "CudaTest" ignore
+    Target.create "CudaTestNET90" (``Test CUDA`` "net9.0")
     Target.create "CudaTestNET80" (``Test CUDA`` "net8.0")
     Target.create "CudaTestNET48" (``Test CUDA`` "net48")
     "CudaWinBuild" ==> "CudaTestNET80" ==> "CudaTest" |> ignore
