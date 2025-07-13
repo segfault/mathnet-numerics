@@ -143,17 +143,65 @@ let cudaWinPack =
 
 // OpenBLAS NATIVE PROVIDER PACKAGES
 
-let openBlasWinZipPackage = zipPackage "MathNet.Numerics.OpenBLAS.Win" "Math.NET Numerics OpenBLAS Native Provider for Windows" openBlasRelease
-let openBlasWinNuGetPackage = nugetPackage "MathNet.Numerics.OpenBLAS.Win" openBlasRelease
+let openBlasWinZipPackage      = zipPackage "MathNet.Numerics.OpenBLAS.Win"     "Math.NET Numerics OpenBLAS Native Provider for Windows" openBlasRelease
+let openBlasWinNuGetPackage    = nugetPackage "MathNet.Numerics.OpenBLAS.Win"     openBlasRelease
+
+let openBlasLinuxZipPackage    = zipPackage "MathNet.Numerics.OpenBLAS.Linux"   "Math.NET Numerics OpenBLAS Native Provider for Linux" openBlasRelease
+let openBlasLinuxNuGetPackage  = nugetPackage "MathNet.Numerics.OpenBLAS.Linux"   openBlasRelease
+let openBlasLinux32NuGetPackage = nugetPackage "MathNet.Numerics.OpenBLAS.Linux-x86" openBlasRelease
+let openBlasLinux64NuGetPackage = nugetPackage "MathNet.Numerics.OpenBLAS.Linux-x64" openBlasRelease
+
+let openBlasOsxZipPackage      = zipPackage "MathNet.Numerics.OpenBLAS.OSX"      "Math.NET Numerics OpenBLAS Native Provider for macOS" openBlasRelease
+let openBlasOsxNuGetPackage    = nugetPackage "MathNet.Numerics.OpenBLAS.OSX"      openBlasRelease
+let openBlasOsx64NuGetPackage  = nugetPackage "MathNet.Numerics.OpenBLAS.OSX-x64"  openBlasRelease
+let openBlasOsxArm64NuGetPackage = nugetPackage "MathNet.Numerics.OpenBLAS.OSX-arm64" openBlasRelease
 
 let openBlasWinProject = nativeProject "MathNet.Numerics.OpenBLAS" "src/NativeProviders/Windows/OpenBLAS/OpenBLASWrapper.vcxproj" [openBlasWinNuGetPackage]
-let openBlasSolution = solution "OpenBLAS" "MathNet.Numerics.OpenBLAS.sln" [openBlasWinProject] [openBlasWinZipPackage]
+let openBlasLinuxProject = nativeBashScriptProject "MathNet.Numerics.OpenBLAS" "src/NativeProviders/Linux/openblas_build.sh" [openBlasLinuxNuGetPackage; openBlasLinux32NuGetPackage; openBlasLinux64NuGetPackage]
+let openBlasOsxProject   = nativeBashScriptProject "MathNet.Numerics.OpenBLAS" "src/NativeProviders/OSX/openblas_build.sh"   [openBlasOsxNuGetPackage; openBlasOsx64NuGetPackage; openBlasOsxArm64NuGetPackage]
+let openBlasSolution = solution "OpenBLAS" "MathNet.Numerics.OpenBLAS.sln" [openBlasWinProject; openBlasLinuxProject; openBlasOsxProject] [openBlasWinZipPackage; openBlasLinuxZipPackage; openBlasOsxZipPackage]
 
 let openBlasWinPack =
     { NuGet = openBlasWinNuGetPackage
       NuSpecFile = "build/MathNet.Numerics.OpenBLAS.Win.nuspec"
       Dependencies = [ numericsProvidersOpenBlasNuGetPackage.Id, numericsProvidersOpenBlasNuGetPackage.Release.PackageVersion ]
       Title = "Math.NET Numerics - OpenBLAS Native Provider for Windows (x64 and x86)" }
+
+let openBlasLinuxPack =
+    { NuGet = openBlasLinuxNuGetPackage
+      NuSpecFile = "build/MathNet.Numerics.OpenBLAS.Linux.nuspec"
+      Dependencies = [ numericsProvidersOpenBlasNuGetPackage.Id, numericsProvidersOpenBlasNuGetPackage.Release.PackageVersion ]
+      Title = "Math.NET Numerics - OpenBLAS Native Provider for Linux (x64 and x86)" }
+
+let openBlasLinux32Pack =
+    { NuGet = openBlasLinux32NuGetPackage
+      NuSpecFile = "build/MathNet.Numerics.OpenBLAS.Linux-x86.nuspec"
+      Dependencies = [ numericsProvidersOpenBlasNuGetPackage.Id, numericsProvidersOpenBlasNuGetPackage.Release.PackageVersion ]
+      Title = "Math.NET Numerics - OpenBLAS Native Provider for Linux (x86)" }
+
+let openBlasLinux64Pack =
+    { NuGet = openBlasLinux64NuGetPackage
+      NuSpecFile = "build/MathNet.Numerics.OpenBLAS.Linux-x64.nuspec"
+      Dependencies = [ numericsProvidersOpenBlasNuGetPackage.Id, numericsProvidersOpenBlasNuGetPackage.Release.PackageVersion ]
+      Title = "Math.NET Numerics - OpenBLAS Native Provider for Linux (x64)" }
+
+let openBlasOsxPack =
+    { NuGet = openBlasOsxNuGetPackage
+      NuSpecFile = "build/MathNet.Numerics.OpenBLAS.OSX.nuspec"
+      Dependencies = [ numericsProvidersOpenBlasNuGetPackage.Id, numericsProvidersOpenBlasNuGetPackage.Release.PackageVersion ]
+      Title = "Math.NET Numerics - OpenBLAS Native Provider for macOS (x64 and arm64)" }
+
+let openBlasOsx64Pack =
+    { NuGet = openBlasOsx64NuGetPackage
+      NuSpecFile = "build/MathNet.Numerics.OpenBLAS.OSX-x64.nuspec"
+      Dependencies = [ numericsProvidersOpenBlasNuGetPackage.Id, numericsProvidersOpenBlasNuGetPackage.Release.PackageVersion ]
+      Title = "Math.NET Numerics - OpenBLAS Native Provider for macOS (x64)" }
+
+let openBlasOsxArm64Pack =
+    { NuGet = openBlasOsxArm64NuGetPackage
+      NuSpecFile = "build/MathNet.Numerics.OpenBLAS.OSX-arm64.nuspec"
+      Dependencies = [ numericsProvidersOpenBlasNuGetPackage.Id, numericsProvidersOpenBlasNuGetPackage.Release.PackageVersion ]
+      Title = "Math.NET Numerics - OpenBLAS Native Provider for macOS (arm64)" }
 
 
 // ALL
@@ -282,6 +330,22 @@ let ``Pack OpenBLAS Windows`` _ =
     Directory.create openBlasSolution.OutputNuGetDir
     nugetPackManually openBlasSolution [ openBlasWinPack ] "LICENSE.md" header
 
+let ``Pack OpenBLAS Linux Zip`` _ =
+    Directory.create openBlasSolution.OutputZipDir
+    zip openBlasLinuxZipPackage header openBlasSolution.OutputZipDir "out/OpenBLAS/Linux" (fun f -> f.Contains("libMathNetNumericsOpenBLAS"))
+
+let ``Pack OpenBLAS Linux NuGet`` _ =
+    Directory.create openBlasSolution.OutputNuGetDir
+    nugetPackManually openBlasSolution [ openBlasLinuxPack; openBlasLinux32Pack; openBlasLinux64Pack ] "LICENSE.md" header
+
+let ``Pack OpenBLAS OSX Zip`` _ =
+    Directory.create openBlasSolution.OutputZipDir
+    zip openBlasOsxZipPackage header openBlasSolution.OutputZipDir "out/OpenBLAS/OSX" (fun f -> f.Contains("libMathNetNumericsOpenBLAS"))
+
+let ``Pack OpenBLAS OSX NuGet`` _ =
+    Directory.create openBlasSolution.OutputNuGetDir
+    nugetPackManually openBlasSolution [ openBlasOsxPack; openBlasOsx64Pack; openBlasOsxArm64Pack ] "LICENSE.md" header
+
 let extraDocs =
     [ "LICENSE.md", "License.md"
       "LICENSE-MKL.md", "License-MKL.md"
@@ -394,6 +458,18 @@ let initTargets strongname sign incremental =
     "MklLinuxNuGet" ==> "MklLinuxPack" |> ignore
     Target.create "MklWinPack" ``Pack MKL Windows``
     Target.create "OpenBlasWinPack" ``Pack OpenBLAS Windows``
+
+    Target.create "OpenBlasLinuxPack" ignore
+    Target.create "OpenBlasLinuxZip" ``Pack OpenBLAS Linux Zip``
+    "OpenBlasLinuxZip" ==> "OpenBlasLinuxPack" |> ignore
+    Target.create "OpenBlasLinuxNuGet" ``Pack OpenBLAS Linux NuGet``
+    "OpenBlasLinuxNuGet" ==> "OpenBlasLinuxPack" |> ignore
+
+    Target.create "OpenBlasOsxPack" ignore
+    Target.create "OpenBlasOsxZip" ``Pack OpenBLAS OSX Zip``
+    "OpenBlasOsxZip" ==> "OpenBlasOsxPack" |> ignore
+    Target.create "OpenBlasOsxNuGet" ``Pack OpenBLAS OSX NuGet``
+    "OpenBlasOsxNuGet" ==> "OpenBlasOsxPack" |> ignore
 
     // DOCS
     Target.create "CleanDocs" ``Docs Clean``
