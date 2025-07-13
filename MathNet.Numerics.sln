@@ -63,6 +63,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Providers.CUDA", "src\Provi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Providers.OpenBLAS", "src\Providers.OpenBLAS\Providers.OpenBLAS.csproj", "{FBE18DF3-EEC3-4812-9FB4-B9EA6EAEC029}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Providers.Accelerate", "src\Providers.Accelerate\Providers.Accelerate.csproj", "{576D7871-A95C-4972-B7C5-1953B3458F34}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Matlab", "src\Data.Matlab\Data.Matlab.csproj", "{2AA6CF31-96A1-4BB5-AD2E-7840167FE4DA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Text", "src\Data.Text\Data.Text.csproj", "{B626F8B8-51A5-4FB6-BE5A-E94B27B1A050}"
@@ -130,6 +132,12 @@ Global
 		{FBE18DF3-EEC3-4812-9FB4-B9EA6EAEC029}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FBE18DF3-EEC3-4812-9FB4-B9EA6EAEC029}.Release-Signed|Any CPU.ActiveCfg = Debug|Any CPU
 		{FBE18DF3-EEC3-4812-9FB4-B9EA6EAEC029}.Release-Signed|Any CPU.Build.0 = Debug|Any CPU
+		{576D7871-A95C-4972-B7C5-1953B3458F34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{576D7871-A95C-4972-B7C5-1953B3458F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{576D7871-A95C-4972-B7C5-1953B3458F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{576D7871-A95C-4972-B7C5-1953B3458F34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{576D7871-A95C-4972-B7C5-1953B3458F34}.Release-Signed|Any CPU.ActiveCfg = Debug|Any CPU
+		{576D7871-A95C-4972-B7C5-1953B3458F34}.Release-Signed|Any CPU.Build.0 = Debug|Any CPU
 		{2AA6CF31-96A1-4BB5-AD2E-7840167FE4DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2AA6CF31-96A1-4BB5-AD2E-7840167FE4DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AA6CF31-96A1-4BB5-AD2E-7840167FE4DA}.Release|Any CPU.ActiveCfg = Release|Any CPU

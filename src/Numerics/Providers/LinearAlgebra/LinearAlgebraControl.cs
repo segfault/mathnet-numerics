@@ -47,6 +47,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         const string CudaTypeName = "MathNet.Numerics.Providers.CUDA.LinearAlgebra.CudaLinearAlgebraControl, MathNet.Numerics.Providers.CUDA";
         static readonly ProviderProbe<ILinearAlgebraProvider> CudaProbe = new ProviderProbe<ILinearAlgebraProvider>(CudaTypeName, AppSwitches.DisableCudaNativeProvider);
 
+        const string AccelerateTypeName = "MathNet.Numerics.Providers.Accelerate.LinearAlgebra.AccelerateLinearAlgebraControl, MathNet.Numerics.Providers.Accelerate";
+        static readonly ProviderProbe<ILinearAlgebraProvider> AccelerateProbe = new ProviderProbe<ILinearAlgebraProvider>(AccelerateTypeName, AppSwitches.DisableAccelerateNativeProvider);
+
         /// <summary>
         /// Optional path to try to load native provider binaries from,
         /// if the provider specific hint path is not set.
@@ -94,6 +97,18 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         public static void UseNativeCUDA() => Provider = CudaProbe.Create();
         public static bool TryUseNativeCUDA() => TryUse(CudaProbe.TryCreate());
 
+        /// <summary>
+        /// Use the Accelerate Framework native provider for linear algebra.
+        /// Throws if it is not available or failed to initialize.
+        /// </summary>
+        public static void UseNativeAccelerate() => Provider = AccelerateProbe.Create();
+
+        /// <summary>
+        /// Try to use the Accelerate Framework native provider for linear algebra.
+        /// </summary>
+        /// <returns>True if the provider was found and initialized successfully.</returns>
+        public static bool TryUseNativeAccelerate() => TryUse(AccelerateProbe.TryCreate());
+
         public static void UseNativeOpenBLAS() => Provider = OpenBlasProbe.Create();
         public static bool TryUseNativeOpenBLAS() => TryUse(OpenBlasProbe.TryCreate());
 
@@ -107,7 +122,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 return false;
             }
 
-            return TryUseNativeMKL() || TryUseNativeOpenBLAS() || TryUseNativeCUDA();
+            return TryUseNativeMKL() || TryUseNativeOpenBLAS() || TryUseNativeCUDA() || TryUseNativeAccelerate();
         }
 
         public static bool TryUse(ILinearAlgebraProvider provider)
@@ -172,6 +187,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
                 case "OPENBLAS":
                     UseNativeOpenBLAS();
+                    break;
+                case "ACCELERATE":
+                    UseNativeAccelerate();
                     break;
 
                 default:

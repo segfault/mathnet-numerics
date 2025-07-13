@@ -45,6 +45,7 @@ namespace MathNet.Numerics
         const string AppSwitchDisableMklNativeProvider = "Switch.MathNet.Numerics.Providers.DisableMklNativeProvider";
         const string AppSwitchDisableCudaNativeProvider = "Switch.MathNet.Numerics.Providers.DisableCudaNativeProvider";
         const string AppSwitchDisableOpenBlasNativeProvider = "Switch.MathNet.Numerics.Providers.DisableOpenBlasNativeProvider";
+        const string AppSwitchDisableAccelerateNativeProvider = "Switch.MathNet.Numerics.Providers.DisableAccelerateNativeProvider";
 
         static void SetSwitch(string switchName, bool isEnabled)
         {
@@ -84,6 +85,11 @@ namespace MathNet.Numerics
         {
             get => IsEnabled(AppSwitchDisableOpenBlasNativeProvider);
             set => SetSwitch(AppSwitchDisableOpenBlasNativeProvider, value);
+        }
+        public static bool DisableAccelerateNativeProvider
+        {
+            get => IsEnabled(AppSwitchDisableAccelerateNativeProvider);
+            set => SetSwitch(AppSwitchDisableAccelerateNativeProvider, value);
         }
     }
 }
