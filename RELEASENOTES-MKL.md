@@ -1,3 +1,6 @@
+### 6.1.0-beta1 - 2025-03-08
+* Align MKL native provider version with Numerics 6.1.0-beta1.
+
 ### 3.0.0 - 2022-02-19
 * New binary names and package structure with runtime folders
 * With Intel oneAPI 2022
