@@ -18,11 +18,11 @@
     @dependencies@
   </metadata>
   <files>
-    <file src="..\\..\\out\\OpenBLAS\\Linux\\x86\\libMathNetNumericsOpenBLAS.so" target="runtimes\\linux-x86\\native\\libMathNetNumericsOpenBLAS.so" />
-    <file src="..\\..\\build\\NativeProvider.targets" target="build\\net461\\MathNet.Numerics.OpenBLAS.Linux-x86.targets" />
-    <file src="..\\..\\build\\NativeProvider.targets" target="build\\net48\\MathNet.Numerics.OpenBLAS.Linux-x86.targets" />
-    <file src="..\\..\\build\\NativeProvider.targets" target="buildTransitive\\net461\\MathNet.Numerics.OpenBLAS.Linux-x86.targets" />
-    <file src="..\\..\\build\\NativeProvider.targets" target="buildTransitive\\net48\\MathNet.Numerics.OpenBLAS.Linux-x86.targets" />
-    <file src="..\\..\\build\\icon.png" target="icon.png" />
+    <file src="../../out/OpenBLAS/Linux/x86/libMathNetNumericsOpenBLAS.so" target="runtimes/linux-x86/native/libMathNetNumericsOpenBLAS.so" />
+    <file src="../../build/NativeProvider.targets" target="build/net461/MathNet.Numerics.OpenBLAS.Linux-x86.targets" />
+    <file src="../../build/NativeProvider.targets" target="build/net48/MathNet.Numerics.OpenBLAS.Linux-x86.targets" />
+    <file src="../../build/NativeProvider.targets" target="buildTransitive/net461/MathNet.Numerics.OpenBLAS.Linux-x86.targets" />
+    <file src="../../build/NativeProvider.targets" target="buildTransitive/net48/MathNet.Numerics.OpenBLAS.Linux-x86.targets" />
+    <file src="../../build/icon.png" target="icon.png" />
   </files>
 </package>

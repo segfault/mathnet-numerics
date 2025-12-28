@@ -5,6 +5,7 @@ open Fake.Core
 open Fake.DotNet
 open Fake.DotNet.DotNet.Options
 open Fake.IO.FileSystemOperators
+open System.IO
 
 open Model
 
@@ -22,6 +23,16 @@ let buildStrongNamed (solution:Solution) = DotNet.build (minimal >> buildOptions
 
 let pack (solution:Solution) = DotNet.pack (minimal >> packOptions normal) solution.SolutionFile
 let packStrongNamed (solution:Solution) = DotNet.pack (minimal >> packOptions strongNamed) solution.SolutionFile
+
+let runBashScript (scriptPath:string) =
+    let fullPath = Path.GetFullPath scriptPath
+    let workDir = Path.GetDirectoryName(fullPath)
+    let result =
+        CreateProcess.fromRawCommandLine "bash" (sprintf "\"%s\"" fullPath)
+        |> CreateProcess.withWorkingDirectory workDir
+        |> CreateProcess.withTimeout (System.TimeSpan.FromMinutes 10.)
+        |> Proc.run
+    if result.ExitCode <> 0 then failwithf "Error during bash script call: %s" scriptPath
 
 let buildVS2022x86 config isIncremental subject =
     MSBuild.run

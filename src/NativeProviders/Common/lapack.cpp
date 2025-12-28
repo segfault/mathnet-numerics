@@ -252,7 +252,7 @@ inline lapack_int svd_factor(bool compute_vectors, lapack_int m, lapack_int n, T
 	{
 		auto job = compute_vectors ? 'A' : 'N';
 		auto dim_s = std::min(m, n);
-		auto superb = array_new<T>(std::max(2, dim_s) - 1);
+		auto superb = array_new<T>(std::max<lapack_int>(2, dim_s) - 1);
         return gesvd(LAPACK_COL_MAJOR, job, job, m, n, a, m, s, u, m, v, n, superb.get());
 	}
 	catch (std::bad_alloc&)
@@ -268,7 +268,7 @@ inline lapack_int complex_svd_factor(bool compute_vectors, lapack_int m, lapack_
 	{
 		auto dim_s = std::min(m, n);
 		auto s_local = array_new<R>(dim_s);
-		auto superb = array_new<R>(std::max(2, dim_s) - 1);
+		auto superb = array_new<R>(std::max<lapack_int>(2, dim_s) - 1);
 		auto job = compute_vectors ? 'A' : 'N';
 		auto info = gesvd(LAPACK_COL_MAJOR, job, job, m, n, a, m, s_local.get(), u, m, v, n, superb.get());
 

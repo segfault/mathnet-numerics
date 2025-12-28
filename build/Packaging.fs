@@ -54,13 +54,14 @@ let sign fingerprint timeserver (solution: Solution) =
 
 let signNuGet fingerprint timeserver (solutions: Solution list) =
     Shell.cleanDir "obj/NuGet"
+    let nugetToolPath = Path.getFullName "packages/build/NuGet.CommandLine/tools/NuGet.exe"
     solutions
     |> Seq.collect (fun solution -> !! (solution.OutputNuGetDir </> "*.nupkg"))
     |> Seq.distinct
     |> Seq.iter (fun file ->
         let args = sprintf """sign "%s" -HashAlgorithm SHA256 -TimestampHashAlgorithm SHA256 -CertificateFingerprint "%s" -Timestamper "%s""" (Path.getFullName file) fingerprint timeserver
         let result =
-            CreateProcess.fromRawCommandLine "packages/build/NuGet.CommandLine/tools/NuGet.exe" args
+            CreateProcess.fromRawCommandLine nugetToolPath args
             |> CreateProcess.withWorkingDirectory (Path.getFullName "obj/NuGet")
             |> CreateProcess.withTimeout (TimeSpan.FromMinutes 10.)
             |> Proc.run
@@ -79,7 +80,7 @@ let zip (package:ZipPackage) header zipDir filesDir filesFilter =
 
 
 let private updateNuspec (nuget:NuGetPackage) outPath dependencies (spec:NuGet.NuGet.NuGetParams) =
-    { spec with ToolPath = "packages/build/NuGet.CommandLine/tools/NuGet.exe"
+    { spec with ToolPath = Path.getFullName "packages/build/NuGet.CommandLine/tools/NuGet.exe"
                 OutputPath = outPath
                 WorkingDir = "obj/NuGet"
                 Version = nuget.Release.PackageVersion

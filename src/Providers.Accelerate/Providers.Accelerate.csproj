@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net8.0;net6.0;net48;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net10.0;net9.0;net8.0;net6.0;net48;netstandard2.0</TargetFrameworks>
     <LangVersion>7.3</LangVersion>
     <AssemblyName>MathNet.Numerics.Providers.Accelerate</AssemblyName>
     <RootNamespace>MathNet.Numerics.Providers.Accelerate</RootNamespace>
@@ -13,7 +13,8 @@
     <VersionSuffix>beta2</VersionSuffix>
     <Title>Math.NET Numerics Accelerate Provider$(TitleSuffix)</Title>
     <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.$(DescriptionSuffix)</Description>
-    <PackageReleaseNotes>intermediate beta, mainly to verify we can still do releases, many contributions, proper release notes with attributions will follow.</PackageReleaseNotes>
+    <PackageReleaseNotes>intermediate beta, mainly to verify we can still do releases
+many contributions, proper release notes with attributions will follow. thank you all!</PackageReleaseNotes>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
     <NoWarn>1701;1702;1705;1591;1573</NoWarn>

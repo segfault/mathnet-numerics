@@ -11,6 +11,10 @@ sh accelerate_build.sh
 
 This creates the `libMathNetNumericsAccelerate.dylib` libraries for x64 and arm64 under `out/Accelerate/OSX/x64` and `out/Accelerate/OSX/arm64`.
 
+## Native package
+
+If you prefer prebuilt binaries, install `MathNet.Numerics.Accelerate.OSX` alongside `MathNet.Numerics.Providers.Accelerate`. The native dylibs will be resolved from the NuGet runtime assets, so you do not need to set `Control.NativeProviderPath`.
+
 ## Using the provider
 
 In C#:

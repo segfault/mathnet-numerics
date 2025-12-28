@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MathNet.Numerics.Accelerate.OSX-x64</id>
+    <version>@build.number@</version>
+    <title>Math.NET Numerics - Accelerate Native Provider for macOS (x64)</title>
+    <authors>Christoph Ruegg, Marcus Cuda</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <icon>icon.png</icon>
+    <projectUrl>https://numerics.mathdotnet.com/</projectUrl>
+    <repository type="git" url="https://github.com/mathnet/mathnet-numerics" />
+    <description>Accelerate native provider for Math.NET Numerics on macOS (x64).</description>
+    <summary>Accelerate native provider for Math.NET Numerics on macOS (x64).</summary>
+    <releaseNotes>@releaseNotes@</releaseNotes>
+    <copyright>Copyright Math.NET Project</copyright>
+    <tags>math numeric statistics probability integration interpolation linear algebra matrix fft native accelerate blas lapack</tags>
+    @dependencies@
+  </metadata>
+  <files>
+    <file src="../../out/Accelerate/OSX/x64/libMathNetNumericsAccelerate.dylib" target="runtimes/osx-x64/native/libMathNetNumericsAccelerate.dylib" />
+    <file src="../../build/NativeProvider.targets" target="build/net461/MathNet.Numerics.Accelerate.OSX-x64.targets" />
+    <file src="../../build/NativeProvider.targets" target="build/net48/MathNet.Numerics.Accelerate.OSX-x64.targets" />
+    <file src="../../build/NativeProvider.targets" target="buildTransitive/net461/MathNet.Numerics.Accelerate.OSX-x64.targets" />
+    <file src="../../build/NativeProvider.targets" target="buildTransitive/net48/MathNet.Numerics.Accelerate.OSX-x64.targets" />
+    <file src="../../build/icon.png" target="icon.png" />
+  </files>
+</package>

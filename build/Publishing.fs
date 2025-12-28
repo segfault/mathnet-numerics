@@ -29,7 +29,7 @@ let publishNuGet (solutions: Solution list) =
         try
             let result =
                 CreateProcess.fromRawCommandLine
-                    "packages/build/NuGet.CommandLine/tools/NuGet.exe"
+                    (Path.getFullName "packages/build/NuGet.CommandLine/tools/NuGet.exe")
                     (sprintf """push "%s" -Source https://api.nuget.org/v3/index.json -T 900""" (Path.getFullName file))
                 |> CreateProcess.withWorkingDirectory (Path.getFullName "obj/NuGet")
                 |> CreateProcess.withTimeout (TimeSpan.FromMinutes 10.)

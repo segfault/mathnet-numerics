@@ -51,6 +51,7 @@ let numericsNuGetPackage = nugetPackage "MathNet.Numerics" numericsRelease
 let numericsFSharpNuGetPackage = nugetPackage "MathNet.Numerics.FSharp" numericsRelease
 let numericsProvidersMklNuGetPackage = nugetPackage "MathNet.Numerics.Providers.MKL" numericsRelease
 let numericsProvidersOpenBlasNuGetPackage = nugetPackage "MathNet.Numerics.Providers.OpenBLAS" numericsRelease
+let numericsProvidersAccelerateNuGetPackage = nugetPackage "MathNet.Numerics.Providers.Accelerate" numericsRelease
 let numericsProvidersCudaNuGetPackage = nugetPackage "MathNet.Numerics.Providers.CUDA" numericsRelease
 let numericsDataTextNuGetPackage = nugetPackage "MathNet.Numerics.Data.Text" numericsRelease
 let numericsDataMatlabNuGetPackage = nugetPackage "MathNet.Numerics.Data.Matlab" numericsRelease
@@ -59,6 +60,7 @@ let numericsStrongNameNuGetPackage = nugetPackage "MathNet.Numerics.Signed" nume
 let numericsFSharpStrongNameNuGetPackage = nugetPackage "MathNet.Numerics.FSharp.Signed" numericsRelease
 let numericsProvidersMklStrongNameNuGetPackage = nugetPackage "MathNet.Numerics.Providers.MKL.Signed" numericsRelease
 let numericsProvidersOpenBlasStrongNameNuGetPackage = nugetPackage "MathNet.Numerics.Providers.OpenBLAS.Signed" numericsRelease
+let numericsProvidersAccelerateStrongNameNuGetPackage = nugetPackage "MathNet.Numerics.Providers.Accelerate.Signed" numericsRelease
 let numericsProvidersCudaStrongNameNuGetPackage = nugetPackage "MathNet.Numerics.Providers.CUDA.Signed" numericsRelease
 let numericsDataTextStrongNameNuGetPackage = nugetPackage "MathNet.Numerics.Data.Text.Signed" numericsRelease
 let numericsDataMatlabStrongNameNuGetPackage = nugetPackage "MathNet.Numerics.Data.Matlab.Signed" numericsRelease
@@ -67,10 +69,11 @@ let numericsProject = project "MathNet.Numerics" "src/Numerics/Numerics.csproj" 
 let numericsFsharpProject = project "MathNet.Numerics.FSharp" "src/FSharp/FSharp.fsproj" [numericsFSharpNuGetPackage; numericsFSharpStrongNameNuGetPackage]
 let numericsProvidersMklProject = project "MathNet.Numerics.Providers.MKL" "src/Providers.MKL/Providers.MKL.csproj" [numericsProvidersMklNuGetPackage; numericsProvidersMklStrongNameNuGetPackage]
 let numericsProvidersOpenBlasProject = project "MathNet.Numerics.Providers.OpenBLAS" "src/Providers.OpenBLAS/Providers.OpenBLAS.csproj" [numericsProvidersOpenBlasNuGetPackage; numericsProvidersOpenBlasStrongNameNuGetPackage]
+let numericsProvidersAccelerateProject = project "MathNet.Numerics.Providers.Accelerate" "src/Providers.Accelerate/Providers.Accelerate.csproj" [numericsProvidersAccelerateNuGetPackage; numericsProvidersAccelerateStrongNameNuGetPackage]
 let numericsProvidersCudaProject = project "MathNet.Numerics.Providers.CUDA" "src/Providers.CUDA/Providers.CUDA.csproj" [numericsProvidersCudaNuGetPackage; numericsProvidersCudaStrongNameNuGetPackage]
 let numericsDataTextProject = project "MathNet.Numerics.Data.Text" "src/Data.Text/Data.Text.csproj" [numericsDataTextNuGetPackage; numericsDataTextStrongNameNuGetPackage]
 let numericsDataMatlabProject = project "MathNet.Numerics.Data.Matlab" "src/Data.Matlab/Data.Matlab.csproj" [numericsDataMatlabNuGetPackage; numericsDataMatlabStrongNameNuGetPackage]
-let numericsSolution = solution "Numerics" "MathNet.Numerics.sln" [numericsProject; numericsFsharpProject; numericsProvidersMklProject; numericsProvidersOpenBlasProject; numericsProvidersCudaProject; numericsDataTextProject; numericsDataMatlabProject] [numericsZipPackage; numericsStrongNameZipPackage]
+let numericsSolution = solution "Numerics" "MathNet.Numerics.sln" [numericsProject; numericsFsharpProject; numericsProvidersMklProject; numericsProvidersOpenBlasProject; numericsProvidersAccelerateProject; numericsProvidersCudaProject; numericsDataTextProject; numericsDataMatlabProject] [numericsZipPackage; numericsStrongNameZipPackage]
 
 
 // MKL NATIVE PROVIDER PACKAGES
@@ -204,6 +207,35 @@ let openBlasOsxArm64Pack =
       Title = "Math.NET Numerics - OpenBLAS Native Provider for macOS (arm64)" }
 
 
+// Accelerate NATIVE PROVIDER PACKAGES
+
+let accelerateOsxZipPackage      = zipPackage "MathNet.Numerics.Accelerate.OSX"      "Math.NET Numerics Accelerate Native Provider for macOS" numericsRelease
+let accelerateOsxNuGetPackage    = nugetPackage "MathNet.Numerics.Accelerate.OSX"      numericsRelease
+let accelerateOsx64NuGetPackage  = nugetPackage "MathNet.Numerics.Accelerate.OSX-x64"  numericsRelease
+let accelerateOsxArm64NuGetPackage = nugetPackage "MathNet.Numerics.Accelerate.OSX-arm64" numericsRelease
+
+let accelerateOsxProject   = nativeBashScriptProject "MathNet.Numerics.Accelerate" "src/NativeProviders/OSX/accelerate_build.sh"   [accelerateOsxNuGetPackage; accelerateOsx64NuGetPackage; accelerateOsxArm64NuGetPackage]
+let accelerateSolution = solution "Accelerate" "MathNet.Numerics.sln" [accelerateOsxProject] [accelerateOsxZipPackage]
+
+let accelerateOsxPack =
+    { NuGet = accelerateOsxNuGetPackage
+      NuSpecFile = "build/MathNet.Numerics.Accelerate.OSX.nuspec"
+      Dependencies = [ numericsProvidersAccelerateNuGetPackage.Id, numericsProvidersAccelerateNuGetPackage.Release.PackageVersion ]
+      Title = "Math.NET Numerics - Accelerate Native Provider for macOS (x64 and arm64)" }
+
+let accelerateOsx64Pack =
+    { NuGet = accelerateOsx64NuGetPackage
+      NuSpecFile = "build/MathNet.Numerics.Accelerate.OSX-x64.nuspec"
+      Dependencies = [ numericsProvidersAccelerateNuGetPackage.Id, numericsProvidersAccelerateNuGetPackage.Release.PackageVersion ]
+      Title = "Math.NET Numerics - Accelerate Native Provider for macOS (x64)" }
+
+let accelerateOsxArm64Pack =
+    { NuGet = accelerateOsxArm64NuGetPackage
+      NuSpecFile = "build/MathNet.Numerics.Accelerate.OSX-arm64.nuspec"
+      Dependencies = [ numericsProvidersAccelerateNuGetPackage.Id, numericsProvidersAccelerateNuGetPackage.Release.PackageVersion ]
+      Title = "Math.NET Numerics - Accelerate Native Provider for macOS (arm64)" }
+
+
 // ALL
 
 let allSolutions = [numericsSolution]
@@ -217,7 +249,7 @@ let allProjects = allSolutions |> List.collect (fun s -> s.Projects) |> List.dis
 let ``Clean`` _ =
     Shell.deleteDirs (!! "src/**/obj/" ++ "src/**/bin/" )
     Shell.cleanDirs [ "out/api"; "out/docs" ]
-    Shell.cleanDirs [ "out/MKL"; "out/ATLAS"; "out/CUDA"; "out/OpenBLAS" ] // Native Providers
+    Shell.cleanDirs [ "out/MKL"; "out/ATLAS"; "out/CUDA"; "out/OpenBLAS"; "out/Accelerate" ] // Native Providers
     allSolutions |> List.iter (fun solution -> Shell.cleanDirs [ solution.OutputZipDir; solution.OutputNuGetDir; solution.OutputLibDir; solution.OutputLibStrongNameDir ])
 
 let ``Apply Version`` _ =
@@ -278,6 +310,9 @@ let ``Build MKL Windows`` isIncremental isSign _ =
     // NuGet Sign (all or nothing)
     if isSign then signNuGet fingerprint timeserver [mklSolution]
 
+let ``Build MKL Linux`` _ =
+    runBashScript "src/NativeProviders/Linux/mkl_build.sh"
+
 let ``Build CUDA Windows`` isIncremental isSign _ =
 
     restore cudaSolution
@@ -303,6 +338,15 @@ let ``Build OpenBLAS Windows`` isIncremental isSign _ =
     // NuGet Sign (all or nothing)
     if isSign then signNuGet fingerprint timeserver [openBlasSolution]
 
+let ``Build OpenBLAS Linux`` _ =
+    runBashScript "src/NativeProviders/Linux/openblas_build.sh"
+
+let ``Build OpenBLAS OSX`` _ =
+    runBashScript "src/NativeProviders/OSX/openblas_build.sh"
+
+let ``Build Accelerate OSX`` _ =
+    runBashScript "src/NativeProviders/OSX/accelerate_build.sh"
+
 let ``Test Numerics`` framework _ = test "src/Numerics.Tests" "Numerics.Tests.csproj" framework
 let ``Test FSharp`` framework _ = test "src/FSharp.Tests" "FSharp.Tests.fsproj" framework
 let ``Test Data`` framework _ = test "src/Data.Tests" "Data.Tests.csproj" framework
@@ -316,7 +360,14 @@ let ``Pack MKL Linux Zip`` _ =
 
 let ``Pack MKL Linux NuGet`` _ =
     Directory.create mklSolution.OutputNuGetDir
-    nugetPackManually mklSolution [ mklLinuxPack; mklLinux32Pack; mklLinux64Pack ] "LICENSE-MKL.md" header
+    let x64Lib = "out/MKL/Linux/x64/libMathNetNumericsMKL.so"
+    let x86Lib = "out/MKL/Linux/x86/libMathNetNumericsMKL.so"
+    if File.exists x64Lib |> not then failwithf "Missing x64 MKL library: %s" x64Lib
+    let packs =
+        [ yield mklLinux64Pack
+          if File.exists x86Lib then yield mklLinux32Pack
+          if File.exists x86Lib then yield mklLinuxPack ]
+    nugetPackManually mklSolution packs "LICENSE-MKL.md" header
 
 let ``Pack MKL Windows`` _ =
     Directory.create mklSolution.OutputZipDir
@@ -336,7 +387,14 @@ let ``Pack OpenBLAS Linux Zip`` _ =
 
 let ``Pack OpenBLAS Linux NuGet`` _ =
     Directory.create openBlasSolution.OutputNuGetDir
-    nugetPackManually openBlasSolution [ openBlasLinuxPack; openBlasLinux32Pack; openBlasLinux64Pack ] "LICENSE.md" header
+    let x64Lib = "out/OpenBLAS/Linux/x64/libMathNetNumericsOpenBLAS.so"
+    let x86Lib = "out/OpenBLAS/Linux/x86/libMathNetNumericsOpenBLAS.so"
+    if File.exists x64Lib |> not then failwithf "Missing x64 OpenBLAS library: %s" x64Lib
+    let packs =
+        [ yield openBlasLinux64Pack
+          if File.exists x86Lib then yield openBlasLinux32Pack
+          if File.exists x86Lib then yield openBlasLinuxPack ]
+    nugetPackManually openBlasSolution packs "LICENSE.md" header
 
 let ``Pack OpenBLAS OSX Zip`` _ =
     Directory.create openBlasSolution.OutputZipDir
@@ -345,6 +403,14 @@ let ``Pack OpenBLAS OSX Zip`` _ =
 let ``Pack OpenBLAS OSX NuGet`` _ =
     Directory.create openBlasSolution.OutputNuGetDir
     nugetPackManually openBlasSolution [ openBlasOsxPack; openBlasOsx64Pack; openBlasOsxArm64Pack ] "LICENSE.md" header
+
+let ``Pack Accelerate OSX Zip`` _ =
+    Directory.create accelerateSolution.OutputZipDir
+    zip accelerateOsxZipPackage header accelerateSolution.OutputZipDir "out/Accelerate/OSX" (fun f -> f.Contains("libMathNetNumericsAccelerate"))
+
+let ``Pack Accelerate OSX NuGet`` _ =
+    Directory.create accelerateSolution.OutputNuGetDir
+    nugetPackManually accelerateSolution [ accelerateOsxPack; accelerateOsx64Pack; accelerateOsxArm64Pack ] "LICENSE.md" header
 
 let extraDocs =
     [ "LICENSE.md", "License.md"
@@ -403,51 +469,65 @@ let initTargets strongname sign incremental =
     "Prepare" ==> "Build" |> ignore
     Target.create "MklWinBuild" (``Build MKL Windows`` incremental sign)
     "Prepare" ==> "MklWinBuild" |> ignore
+    Target.create "MklLinuxBuild" ``Build MKL Linux``
+    "Prepare" =?> ("MklLinuxBuild", Environment.isLinux) |> ignore
     Target.create "CudaWinBuild" (``Build CUDA Windows`` incremental sign)
     "Prepare" ==> "CudaWinBuild" |> ignore
     Target.create "OpenBlasWinBuild" (``Build OpenBLAS Windows`` incremental sign)
     "Prepare" ==> "OpenBlasWinBuild" |> ignore
+    Target.create "OpenBlasLinuxBuild" ``Build OpenBLAS Linux``
+    "Prepare" =?> ("OpenBlasLinuxBuild", Environment.isLinux) |> ignore
+    Target.create "OpenBlasOsxBuild" ``Build OpenBLAS OSX``
+    "Prepare" =?> ("OpenBlasOsxBuild", Environment.isMacOS) |> ignore
+    Target.create "AccelerateOsxBuild" ``Build Accelerate OSX``
+    "Prepare" =?> ("AccelerateOsxBuild", Environment.isMacOS) |> ignore
 
     // TEST
     Target.create "TestNumerics" ignore
+    Target.create "TestNumericsNET100" (``Test Numerics`` "net10.0")
     Target.create "TestNumericsNET90" (``Test Numerics`` "net9.0")
     Target.create "TestNumericsNET80" (``Test Numerics`` "net8.0")
     Target.create "TestNumericsNET48" (``Test Numerics`` "net48")
-    "Build" ==> "TestNumericsNET80" ==> "TestNumerics" |> ignore
+    "Build" ==> "TestNumericsNET100" ==> "TestNumerics" |> ignore
     "Build" =?> ("TestNumericsNET48", Environment.isWindows) ==> "TestNumerics" |> ignore
     Target.create "TestFsharp" ignore
+    Target.create "TestFsharpNET100" (``Test FSharp`` "net10.0")
     Target.create "TestFsharpNET90" (``Test FSharp`` "net9.0")
     Target.create "TestFsharpNET80" (``Test FSharp`` "net8.0")
     Target.create "TestFsharpNET48" (``Test FSharp`` "net48")
-    "Build" ==> "TestFsharpNET80" ==> "TestFsharp" |> ignore
+    "Build" ==> "TestFsharpNET100" ==> "TestFsharp" |> ignore
     "Build" =?> ("TestFsharpNET48", Environment.isWindows) ==> "TestFsharp" |> ignore
     Target.create "TestData" ignore
+    Target.create "TestDataNET100" (``Test Data`` "net10.0")
     Target.create "TestDataNET90" (``Test Data`` "net9.0")
     Target.create "TestDataNET80" (``Test Data`` "net8.0")
     Target.create "TestDataNET48" (``Test Data`` "net48")
-    "Build" ==> "TestDataNET80" ==> "TestData" |> ignore
+    "Build" ==> "TestDataNET100" ==> "TestData" |> ignore
     "Build" =?> ("TestDataNET48", Environment.isWindows) ==> "TestData" |> ignore
     Target.create "Test" ignore
     "TestNumerics" ==> "Test" |> ignore
     "TestFsharp" ==> "Test" |> ignore
     "TestData" ==> "Test" |> ignore
     Target.create "MklTest" ignore
+    Target.create "MklTestNET100" (``Test MKL`` "net10.0")
     Target.create "MklTestNET90" (``Test MKL`` "net9.0")
     Target.create "MklTestNET80" (``Test MKL`` "net8.0")
     Target.create "MklTestNET48" (``Test MKL`` "net48")
-    "MklWinBuild" ==> "MklTestNET80" ==> "MklTest" |> ignore
+    "MklWinBuild" ==> "MklTestNET100" ==> "MklTest" |> ignore
     "MklWinBuild" =?> ("MklTestNET48", Environment.isWindows) ==> "MklTest" |> ignore
     Target.create "OpenBlasTest" ignore
+    Target.create "OpenBlasTestNET100" (``Test OpenBLAS`` "net10.0")
     Target.create "OpenBlasTestNET90" (``Test OpenBLAS`` "net9.0")
     Target.create "OpenBlasTestNET80" (``Test OpenBLAS`` "net8.0")
     Target.create "OpenBlasTestNET48" (``Test OpenBLAS`` "net48")
-    "OpenBlasWinBuild" ==> "OpenBlasTestNET80" ==> "OpenBlasTest" |> ignore
+    "OpenBlasWinBuild" ==> "OpenBlasTestNET100" ==> "OpenBlasTest" |> ignore
     "OpenBlasWinBuild" =?> ("OpenBlasTestNET48", Environment.isWindows) ==> "OpenBlasTest" |> ignore
     Target.create "CudaTest" ignore
+    Target.create "CudaTestNET100" (``Test CUDA`` "net10.0")
     Target.create "CudaTestNET90" (``Test CUDA`` "net9.0")
     Target.create "CudaTestNET80" (``Test CUDA`` "net8.0")
     Target.create "CudaTestNET48" (``Test CUDA`` "net48")
-    "CudaWinBuild" ==> "CudaTestNET80" ==> "CudaTest" |> ignore
+    "CudaWinBuild" ==> "CudaTestNET100" ==> "CudaTest" |> ignore
     "CudaWinBuild" =?> ("CudaTestNET48", Environment.isWindows) ==> "CudaTest" |> ignore
 
     // PACKAGING ONLY WITHOUT BUILD
@@ -456,6 +536,8 @@ let initTargets strongname sign incremental =
     "MklLinuxZip" ==> "MklLinuxPack" |> ignore
     Target.create "MklLinuxNuGet" ``Pack MKL Linux NuGet``
     "MklLinuxNuGet" ==> "MklLinuxPack" |> ignore
+    "MklLinuxBuild" =?> ("MklLinuxZip", Environment.isLinux) |> ignore
+    "MklLinuxBuild" =?> ("MklLinuxNuGet", Environment.isLinux) |> ignore
     Target.create "MklWinPack" ``Pack MKL Windows``
     Target.create "OpenBlasWinPack" ``Pack OpenBLAS Windows``
 
@@ -464,12 +546,24 @@ let initTargets strongname sign incremental =
     "OpenBlasLinuxZip" ==> "OpenBlasLinuxPack" |> ignore
     Target.create "OpenBlasLinuxNuGet" ``Pack OpenBLAS Linux NuGet``
     "OpenBlasLinuxNuGet" ==> "OpenBlasLinuxPack" |> ignore
+    "OpenBlasLinuxBuild" =?> ("OpenBlasLinuxZip", Environment.isLinux) |> ignore
+    "OpenBlasLinuxBuild" =?> ("OpenBlasLinuxNuGet", Environment.isLinux) |> ignore
 
     Target.create "OpenBlasOsxPack" ignore
     Target.create "OpenBlasOsxZip" ``Pack OpenBLAS OSX Zip``
     "OpenBlasOsxZip" ==> "OpenBlasOsxPack" |> ignore
     Target.create "OpenBlasOsxNuGet" ``Pack OpenBLAS OSX NuGet``
     "OpenBlasOsxNuGet" ==> "OpenBlasOsxPack" |> ignore
+    "OpenBlasOsxBuild" =?> ("OpenBlasOsxZip", Environment.isMacOS) |> ignore
+    "OpenBlasOsxBuild" =?> ("OpenBlasOsxNuGet", Environment.isMacOS) |> ignore
+
+    Target.create "AccelerateOsxPack" ignore
+    Target.create "AccelerateOsxZip" ``Pack Accelerate OSX Zip``
+    "AccelerateOsxZip" ==> "AccelerateOsxPack" |> ignore
+    Target.create "AccelerateOsxNuGet" ``Pack Accelerate OSX NuGet``
+    "AccelerateOsxNuGet" ==> "AccelerateOsxPack" |> ignore
+    "AccelerateOsxBuild" =?> ("AccelerateOsxZip", Environment.isMacOS) |> ignore
+    "AccelerateOsxBuild" =?> ("AccelerateOsxNuGet", Environment.isMacOS) |> ignore
 
     // DOCS
     Target.create "CleanDocs" ``Docs Clean``
