@@ -5,4 +5,4 @@ GROUP Build
 STORAGE: PACKAGES
 NUGET
   remote: https://api.nuget.org/v3/index.json
-    NuGet.CommandLine (6.14)
+    NuGet.CommandLine (7.0.1)
