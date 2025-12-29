@@ -16,7 +16,8 @@
         <PackageReleaseNotes>Added macOS Accelerate native packaging support.
 Added OpenBLAS native packaging support for Linux.
 Added OpenBLAS native packaging support for macOS.
-Added AOCL (BLIS/LAPACK) native packaging support for Linux.</PackageReleaseNotes>
+Added AOCL (BLIS/LAPACK) native packaging support for Linux.
+Added CUDA native packaging support for Linux (x64).</PackageReleaseNotes>
         <PackageTags>math numeric data matlab</PackageTags>
         <IsTool>false</IsTool>
         <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>

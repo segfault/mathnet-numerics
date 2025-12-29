@@ -133,15 +133,24 @@ let mklLinux64Pack =
 
 let cudaWinZipPackage = zipPackage "MathNet.Numerics.CUDA.Win" "Math.NET Numerics CUDA Native Provider for Windows" cudaRelease
 let cudaWinNuGetPackage = nugetPackage "MathNet.Numerics.CUDA.Win" cudaRelease
+let cudaLinuxZipPackage = zipPackage "MathNet.Numerics.CUDA.Linux" "Math.NET Numerics CUDA Native Provider for Linux" cudaRelease
+let cudaLinuxNuGetPackage = nugetPackage "MathNet.Numerics.CUDA.Linux-x64" cudaRelease
 
 let cudaWinProject = nativeProject "MathNet.Numerics.CUDA" "src/NativeProviders/Windows/CUDA/CUDAWrapper.vcxproj" [cudaWinNuGetPackage]
-let cudaSolution = solution "CUDA" "MathNet.Numerics.CUDA.sln" [cudaWinProject] [cudaWinZipPackage]
+let cudaLinuxProject = nativeBashScriptProject "MathNet.Numerics.CUDA" "src/NativeProviders/Linux/cuda_build.sh" [cudaLinuxNuGetPackage]
+let cudaSolution = solution "CUDA" "MathNet.Numerics.CUDA.sln" [cudaWinProject; cudaLinuxProject] [cudaWinZipPackage; cudaLinuxZipPackage]
 
 let cudaWinPack =
     { NuGet = cudaWinNuGetPackage
       NuSpecFile = "build/MathNet.Numerics.CUDA.Win.nuspec"
       Dependencies = [ numericsProvidersCudaNuGetPackage.Id, numericsProvidersCudaNuGetPackage.Release.PackageVersion ]
       Title = "Math.NET Numerics - CUDA Native Provider for Windows (x64)" }
+
+let cudaLinuxPack =
+    { NuGet = cudaLinuxNuGetPackage
+      NuSpecFile = "build/MathNet.Numerics.CUDA.Linux-x64.nuspec"
+      Dependencies = [ numericsProvidersCudaNuGetPackage.Id, numericsProvidersCudaNuGetPackage.Release.PackageVersion ]
+      Title = "Math.NET Numerics - CUDA Native Provider for Linux (x64)" }
 
 
 // OpenBLAS NATIVE PROVIDER PACKAGES
@@ -333,6 +342,9 @@ let ``Build CUDA Windows`` isIncremental isSign _ =
     // NuGet Sign (all or nothing)
     if isSign then signNuGet fingerprint timeserver [cudaSolution]
 
+let ``Build CUDA Linux`` _ =
+    runBashScript "src/NativeProviders/Linux/cuda_build.sh"
+
 let ``Build OpenBLAS Windows`` isIncremental isSign _ =
 
     restore openBlasSolution
@@ -379,6 +391,16 @@ let ``Pack MKL Linux NuGet`` _ =
           if File.exists x86Lib then yield mklLinux32Pack
           if File.exists x86Lib then yield mklLinuxPack ]
     nugetPackManually mklSolution packs "LICENSE-MKL.md" header
+
+let ``Pack CUDA Linux Zip`` _ =
+    Directory.create cudaSolution.OutputZipDir
+    zip cudaLinuxZipPackage header cudaSolution.OutputZipDir "out/CUDA/Linux" (fun f -> f.Contains("libMathNetNumericsCUDA.so"))
+
+let ``Pack CUDA Linux NuGet`` _ =
+    Directory.create cudaSolution.OutputNuGetDir
+    let x64Lib = "out/CUDA/Linux/x64/libMathNetNumericsCUDA.so"
+    if File.exists x64Lib |> not then failwithf "Missing x64 CUDA library: %s" x64Lib
+    nugetPackManually cudaSolution [ cudaLinuxPack ] "LICENSE.md" header
 
 let ``Pack MKL Windows`` _ =
     Directory.create mklSolution.OutputZipDir
@@ -490,6 +512,8 @@ let initTargets strongname sign incremental =
     "Prepare" =?> ("MklLinuxBuild", Environment.isLinux) |> ignore
     Target.create "CudaWinBuild" (``Build CUDA Windows`` incremental sign)
     "Prepare" ==> "CudaWinBuild" |> ignore
+    Target.create "CudaLinuxBuild" ``Build CUDA Linux``
+    "Prepare" =?> ("CudaLinuxBuild", Environment.isLinux) |> ignore
     Target.create "OpenBlasWinBuild" (``Build OpenBLAS Windows`` incremental sign)
     "Prepare" ==> "OpenBlasWinBuild" |> ignore
     Target.create "OpenBlasLinuxBuild" ``Build OpenBLAS Linux``
@@ -558,6 +582,13 @@ let initTargets strongname sign incremental =
     "MklLinuxBuild" =?> ("MklLinuxZip", Environment.isLinux) |> ignore
     "MklLinuxBuild" =?> ("MklLinuxNuGet", Environment.isLinux) |> ignore
     Target.create "MklWinPack" ``Pack MKL Windows``
+    Target.create "CudaLinuxPack" ignore
+    Target.create "CudaLinuxZip" ``Pack CUDA Linux Zip``
+    "CudaLinuxZip" ==> "CudaLinuxPack" |> ignore
+    Target.create "CudaLinuxNuGet" ``Pack CUDA Linux NuGet``
+    "CudaLinuxNuGet" ==> "CudaLinuxPack" |> ignore
+    "CudaLinuxBuild" =?> ("CudaLinuxZip", Environment.isLinux) |> ignore
+    "CudaLinuxBuild" =?> ("CudaLinuxNuGet", Environment.isLinux) |> ignore
     Target.create "OpenBlasWinPack" ``Pack OpenBLAS Windows``
 
     Target.create "OpenBlasLinuxPack" ignore

@@ -58,6 +58,14 @@ OpenBLAS & AOCL Native Providers
 - [**MathNet.Numerics.OpenBLAS.OSX-arm64**](https://www.nuget.org/packages/MathNet.Numerics.OpenBLAS.OSX-arm64/) - macOS Apple Silicon.
 - [**MathNet.Numerics.OpenBLAS.AOCL.Linux-x64**](https://www.nuget.org/packages/MathNet.Numerics.OpenBLAS.AOCL.Linux-x64/) - Linux 64-bit (AOCL BLIS/LAPACK).
 
+CUDA Native Provider
+--------------------
+
+[CUDA Native Provider Release Notes](ReleaseNotes-CUDA.html)
+
+- [**MathNet.Numerics.CUDA.Win**](https://www.nuget.org/packages/MathNet.Numerics.CUDA.Win/) - Windows (x64).
+- [**MathNet.Numerics.CUDA.Linux-x64**](https://www.nuget.org/packages/MathNet.Numerics.CUDA.Linux-x64/) - Linux 64-bit.
+
 Data Extensions
 ---------------
 

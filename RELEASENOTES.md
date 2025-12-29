@@ -3,6 +3,7 @@
 * Added OpenBLAS native packaging support for Linux.
 * Added OpenBLAS native packaging support for macOS.
 * Added AOCL (BLIS/LAPACK) native packaging support for Linux.
+* Added CUDA native packaging support for Linux (x64).
 
 ### 6.0.0-beta2 - 2025-03-02
 * intermediate beta, mainly to verify we can still do releases

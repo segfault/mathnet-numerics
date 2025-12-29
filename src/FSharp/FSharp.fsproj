@@ -15,7 +15,8 @@
         <PackageReleaseNotes>Added macOS Accelerate native packaging support.
 Added OpenBLAS native packaging support for Linux.
 Added OpenBLAS native packaging support for macOS.
-Added AOCL (BLIS/LAPACK) native packaging support for Linux.</PackageReleaseNotes>
+Added AOCL (BLIS/LAPACK) native packaging support for Linux.
+Added CUDA native packaging support for Linux (x64).</PackageReleaseNotes>
         <PackageTags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>

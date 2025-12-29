@@ -16,7 +16,8 @@
     <PackageReleaseNotes>Added macOS Accelerate native packaging support.
 Added OpenBLAS native packaging support for Linux.
 Added OpenBLAS native packaging support for macOS.
-Added AOCL (BLIS/LAPACK) native packaging support for Linux.</PackageReleaseNotes>
+Added AOCL (BLIS/LAPACK) native packaging support for Linux.
+Added CUDA native packaging support for Linux (x64).</PackageReleaseNotes>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
     <NoWarn>1701;1702;1705;1591;1573</NoWarn>

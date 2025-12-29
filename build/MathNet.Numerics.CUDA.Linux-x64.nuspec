@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MathNet.Numerics.CUDA.Linux-x64</id>
+    <version>@build.number@</version>
+    <title>Math.NET Numerics - CUDA Native Provider for Linux (x64)</title>
+    <authors>Matthew A Johnson, Christoph Ruegg</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <icon>icon.png</icon>
+    <projectUrl>https://numerics.mathdotnet.com/</projectUrl>
+    <repository type="git" url="https://github.com/mathnet/mathnet-numerics" />
+    <description>Nvidia CUDA native libraries for Math.NET Numerics on Linux (x64).</description>
+    <summary>Nvidia CUDA native libraries for Math.NET Numerics on Linux (x64).</summary>
+    <releaseNotes>@releaseNotes@</releaseNotes>
+    <copyright>Copyright Math.NET Project</copyright>
+    <tags>math numeric statistics probability integration interpolation linear algebra matrix fft native cuda gpu</tags>
+    @dependencies@
+  </metadata>
+  <files>
+    <file src="../../out/CUDA/Linux/x64/libMathNetNumericsCUDA.so" target="runtimes/linux-x64/native/libMathNetNumericsCUDA.so" />
+    <file src="../../build/NativeProvider.targets" target="build/net461/MathNet.Numerics.CUDA.Linux-x64.targets" />
+    <file src="../../build/NativeProvider.targets" target="build/net48/MathNet.Numerics.CUDA.Linux-x64.targets" />
+    <file src="../../build/NativeProvider.targets" target="buildTransitive/net461/MathNet.Numerics.CUDA.Linux-x64.targets" />
+    <file src="../../build/NativeProvider.targets" target="buildTransitive/net48/MathNet.Numerics.CUDA.Linux-x64.targets" />
+    <file src="../../build/icon.png" target="icon.png" />
+  </files>
+</package>
