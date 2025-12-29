@@ -8,7 +8,7 @@
         <IsPackable>true</IsPackable>
         <PackageId>MathNet.Numerics.FSharp</PackageId>
         <PackageId Condition="'$(StrongName)'=='True'">MathNet.Numerics.FSharp.Signed</PackageId>
-        <VersionPrefix>6.1.0</VersionPrefix>
+        <VersionPrefix>6.1.1</VersionPrefix>
         <VersionSuffix>beta1</VersionSuffix>
         <Title>Math.NET Numerics for F#$(TitleSuffix)</Title>
         <Description>F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .NET 5.0 or higher, .NET Standard 2.0 and .NET Framework 4.6.1 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>

@@ -83,6 +83,11 @@ module Random =
     let inline palfWith (seed:int) threadSafe = Palf(seed, threadSafe, 418, 1279) :> System.Random
     let inline palfCustom (seed:int) threadSafe shortLag longLag = Palf(seed, threadSafe, shortLag, longLag) :> System.Random
 
+    /// Creates a one-dimensional Sobol low-discrepancy sequence with Gray code ordering and Owen scrambling
+    let inline sobol () = SobolRandomSource() :> System.Random
+    let inline sobolSeed (seed:int) = SobolRandomSource(seed) :> System.Random
+    let inline sobolWith (seed:int) threadSafe owenScramble = SobolRandomSource(seed, threadSafe, owenScramble) :> System.Random
+
     /// Creates a Multiplicative congruential generator using a modulus of 2^59 and a multiplier of 13^13 pRNG with a robust seed
     let inline mcg59 () = Mcg59() :> System.Random
     let inline mcg59Seed (seed:int) = Mcg59(seed) :> System.Random

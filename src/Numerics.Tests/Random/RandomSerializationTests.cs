@@ -52,6 +52,7 @@ namespace MathNet.Numerics.Tests.Random
         [TestCase(typeof(WH1982))]
         [TestCase(typeof(WH2006))]
         [TestCase(typeof(Xorshift))]
+        [TestCase(typeof(SobolRandomSource))]
         [TestCase(typeof(SystemRandomSource))]
         public void DataContractSerializationTest(Type randomType)
         {
@@ -79,6 +80,7 @@ namespace MathNet.Numerics.Tests.Random
         [TestCase(typeof(WH1982))]
         [TestCase(typeof(WH2006))]
         [TestCase(typeof(Xorshift))]
+        [TestCase(typeof(SobolRandomSource))]
         [TestCase(typeof(SystemRandomSource))]
         public void BinaryFormatterSerializationTest(Type randomType)
         {

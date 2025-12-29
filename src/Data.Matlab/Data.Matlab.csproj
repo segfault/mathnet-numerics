@@ -9,7 +9,7 @@
         <IsPackable>true</IsPackable>
         <PackageId>MathNet.Numerics.Data.Matlab</PackageId>
         <PackageId Condition="'$(StrongName)'=='True'">MathNet.Numerics.Data.Matlab.Signed</PackageId>
-        <VersionPrefix>6.1.0</VersionPrefix>
+        <VersionPrefix>6.1.1</VersionPrefix>
         <VersionSuffix>beta1</VersionSuffix>
         <Title>Math.NET Numerics - MATLAB Data I/O Extensions$(TitleSuffix)</Title>
         <Description>MathWorks MATLAB Data Input/Output Extensions for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.$(DescriptionSuffix)</Description>

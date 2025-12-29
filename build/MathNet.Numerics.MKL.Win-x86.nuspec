@@ -28,6 +28,10 @@
         <file src="..\..\build\_._" target="build\netstandard2.0\_._" />
         <file src="..\..\build\_._" target="buildTransitive\net5.0\_._" />
         <file src="..\..\build\_._" target="buildTransitive\netstandard2.0\_._" />
+    <file src="../../build/_._" target="build/net5.0/_._" />
+    <file src="../../build/_._" target="build/netstandard2.0/_._" />
+    <file src="../../build/_._" target="buildTransitive/net5.0/_._" />
+    <file src="../../build/_._" target="buildTransitive/netstandard2.0/_._" />
         <file src="..\..\build\icon.png" target="icon.png" />
         <file src="license.txt" target="license.txt" />
     </files>

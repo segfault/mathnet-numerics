@@ -9,7 +9,7 @@
         <IsPackable>true</IsPackable>
         <PackageId>MathNet.Numerics.Providers.CUDA</PackageId>
         <PackageId Condition="'$(StrongName)'=='True'">MathNet.Numerics.Providers.CUDA.Signed</PackageId>
-        <VersionPrefix>6.1.0</VersionPrefix>
+        <VersionPrefix>6.1.1</VersionPrefix>
         <VersionSuffix>beta1</VersionSuffix>
         <Title>Math.NET Numerics CUDA Provider$(TitleSuffix)</Title>
         <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.$(DescriptionSuffix)</Description>
