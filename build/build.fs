@@ -662,6 +662,17 @@ let initTargets strongname sign incremental =
     Target.create "OpenBlasPublish" ignore
     "OpenBlasPublish" <== [ "OpenBlasPublishTag"; "PublishDocs"; "OpenBlasPublishArchive"; "OpenBlasPublishNuGet" ]
 
+    Target.create "NuGetEnv" ignore
+    "Build" ==> "NuGetEnv" |> ignore
+    "MklLinuxNuGet" =?> ("NuGetEnv", Environment.isLinux) |> ignore
+    "OpenBlasLinuxNuGet" =?> ("NuGetEnv", Environment.isLinux) |> ignore
+    "OpenBlasAoclLinuxNuGet" =?> ("NuGetEnv", Environment.isLinux) |> ignore
+    "CudaLinuxNuGet" =?> ("NuGetEnv", Environment.isLinux) |> ignore
+    "AccelerateOsxNuGet" =?> ("NuGetEnv", Environment.isMacOS) |> ignore
+    "MklWinBuild" =?> ("NuGetEnv", Environment.isWindows) |> ignore
+    "OpenBlasWinBuild" =?> ("NuGetEnv", Environment.isWindows) |> ignore
+    "CudaWinBuild" =?> ("NuGetEnv", Environment.isWindows) |> ignore
+
     Target.create "All" ignore
     "All" <== [ "Build"; "Docs"; "Api"; "Test" ]
 
