@@ -1,6 +1,8 @@
 ### 6.1.0-beta1 - 2025-03-08
 * Added macOS Accelerate native packaging support.
 * Added OpenBLAS native packaging support for Linux.
+* Added OpenBLAS native packaging support for macOS.
+* Added AOCL (BLIS/LAPACK) native packaging support for Linux.
 
 ### 6.0.0-beta2 - 2025-03-02
 * intermediate beta, mainly to verify we can still do releases

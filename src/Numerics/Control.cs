@@ -168,6 +168,15 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Use the AOCL native provider for linear algebra.
+        /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
+        /// </summary>
+        public static void UseNativeAOCL()
+        {
+            LinearAlgebraControl.UseNativeAOCL();
+        }
+
+        /// <summary>
         /// Try to use the OpenBLAS native provider for linear algebra.
         /// </summary>
         /// <returns>
@@ -177,6 +186,19 @@ namespace MathNet.Numerics
         public static bool TryUseNativeOpenBLAS()
         {
             bool linearAlgebra = LinearAlgebraControl.TryUseNativeOpenBLAS();
+            return linearAlgebra;
+        }
+
+        /// <summary>
+        /// Try to use the AOCL native provider for linear algebra.
+        /// </summary>
+        /// <returns>
+        /// True if the provider was found and initialized successfully.
+        /// False if it failed and the previous provider is still active.
+        /// </returns>
+        public static bool TryUseNativeAOCL()
+        {
+            bool linearAlgebra = LinearAlgebraControl.TryUseNativeAOCL();
             return linearAlgebra;
         }
 

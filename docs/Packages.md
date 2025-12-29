@@ -46,6 +46,18 @@ it may be easier to download the Zip file in the [release archive](https://archi
 - [**MathNet.Numerics.MKL.Linux-x64**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Linux-x64/) - Linux 64-bit.
 - [**MathNet.Numerics.MKL.Linux-x86**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Linux-x86/) - Linux 32-bit.
 
+OpenBLAS & AOCL Native Providers
+--------------------------------
+
+[OpenBLAS Native Provider Release Notes](ReleaseNotes-OpenBLAS.html)
+
+- [**MathNet.Numerics.OpenBLAS.Win**](https://www.nuget.org/packages/MathNet.Numerics.OpenBLAS.Win/) - Windows (combined, MsBuild integrated).
+- [**MathNet.Numerics.OpenBLAS.Linux-x64**](https://www.nuget.org/packages/MathNet.Numerics.OpenBLAS.Linux-x64/) - Linux 64-bit.
+- [**MathNet.Numerics.OpenBLAS.Linux-x86**](https://www.nuget.org/packages/MathNet.Numerics.OpenBLAS.Linux-x86/) - Linux 32-bit.
+- [**MathNet.Numerics.OpenBLAS.OSX-x64**](https://www.nuget.org/packages/MathNet.Numerics.OpenBLAS.OSX-x64/) - macOS Intel.
+- [**MathNet.Numerics.OpenBLAS.OSX-arm64**](https://www.nuget.org/packages/MathNet.Numerics.OpenBLAS.OSX-arm64/) - macOS Apple Silicon.
+- [**MathNet.Numerics.OpenBLAS.AOCL.Linux-x64**](https://www.nuget.org/packages/MathNet.Numerics.OpenBLAS.AOCL.Linux-x64/) - Linux 64-bit (AOCL BLIS/LAPACK).
+
 Data Extensions
 ---------------
 

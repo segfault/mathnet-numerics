@@ -153,6 +153,7 @@ let openBlasLinuxZipPackage    = zipPackage "MathNet.Numerics.OpenBLAS.Linux"   
 let openBlasLinuxNuGetPackage  = nugetPackage "MathNet.Numerics.OpenBLAS.Linux"   openBlasRelease
 let openBlasLinux32NuGetPackage = nugetPackage "MathNet.Numerics.OpenBLAS.Linux-x86" openBlasRelease
 let openBlasLinux64NuGetPackage = nugetPackage "MathNet.Numerics.OpenBLAS.Linux-x64" openBlasRelease
+let openBlasAoclLinux64NuGetPackage = nugetPackage "MathNet.Numerics.OpenBLAS.AOCL.Linux-x64" openBlasRelease
 
 let openBlasOsxZipPackage      = zipPackage "MathNet.Numerics.OpenBLAS.OSX"      "Math.NET Numerics OpenBLAS Native Provider for macOS" openBlasRelease
 let openBlasOsxNuGetPackage    = nugetPackage "MathNet.Numerics.OpenBLAS.OSX"      openBlasRelease
@@ -161,8 +162,9 @@ let openBlasOsxArm64NuGetPackage = nugetPackage "MathNet.Numerics.OpenBLAS.OSX-a
 
 let openBlasWinProject = nativeProject "MathNet.Numerics.OpenBLAS" "src/NativeProviders/Windows/OpenBLAS/OpenBLASWrapper.vcxproj" [openBlasWinNuGetPackage]
 let openBlasLinuxProject = nativeBashScriptProject "MathNet.Numerics.OpenBLAS" "src/NativeProviders/Linux/openblas_build.sh" [openBlasLinuxNuGetPackage; openBlasLinux32NuGetPackage; openBlasLinux64NuGetPackage]
+let openBlasAoclLinuxProject = nativeBashScriptProject "MathNet.Numerics.OpenBLAS.AOCL" "src/NativeProviders/Linux/aocl_build.sh" [openBlasAoclLinux64NuGetPackage]
 let openBlasOsxProject   = nativeBashScriptProject "MathNet.Numerics.OpenBLAS" "src/NativeProviders/OSX/openblas_build.sh"   [openBlasOsxNuGetPackage; openBlasOsx64NuGetPackage; openBlasOsxArm64NuGetPackage]
-let openBlasSolution = solution "OpenBLAS" "MathNet.Numerics.OpenBLAS.sln" [openBlasWinProject; openBlasLinuxProject; openBlasOsxProject] [openBlasWinZipPackage; openBlasLinuxZipPackage; openBlasOsxZipPackage]
+let openBlasSolution = solution "OpenBLAS" "MathNet.Numerics.OpenBLAS.sln" [openBlasWinProject; openBlasLinuxProject; openBlasAoclLinuxProject; openBlasOsxProject] [openBlasWinZipPackage; openBlasLinuxZipPackage; openBlasOsxZipPackage]
 
 let openBlasWinPack =
     { NuGet = openBlasWinNuGetPackage
@@ -187,6 +189,12 @@ let openBlasLinux64Pack =
       NuSpecFile = "build/MathNet.Numerics.OpenBLAS.Linux-x64.nuspec"
       Dependencies = [ numericsProvidersOpenBlasNuGetPackage.Id, numericsProvidersOpenBlasNuGetPackage.Release.PackageVersion ]
       Title = "Math.NET Numerics - OpenBLAS Native Provider for Linux (x64)" }
+
+let openBlasAoclLinux64Pack =
+    { NuGet = openBlasAoclLinux64NuGetPackage
+      NuSpecFile = "build/MathNet.Numerics.OpenBLAS.AOCL.Linux-x64.nuspec"
+      Dependencies = [ numericsProvidersOpenBlasNuGetPackage.Id, numericsProvidersOpenBlasNuGetPackage.Release.PackageVersion ]
+      Title = "Math.NET Numerics - AOCL Native Provider for Linux (x64)" }
 
 let openBlasOsxPack =
     { NuGet = openBlasOsxNuGetPackage
@@ -341,6 +349,9 @@ let ``Build OpenBLAS Windows`` isIncremental isSign _ =
 let ``Build OpenBLAS Linux`` _ =
     runBashScript "src/NativeProviders/Linux/openblas_build.sh"
 
+let ``Build OpenBLAS AOCL Linux`` _ =
+    runBashScript "src/NativeProviders/Linux/aocl_build.sh"
+
 let ``Build OpenBLAS OSX`` _ =
     runBashScript "src/NativeProviders/OSX/openblas_build.sh"
 
@@ -395,6 +406,12 @@ let ``Pack OpenBLAS Linux NuGet`` _ =
           if File.exists x86Lib then yield openBlasLinux32Pack
           if File.exists x86Lib then yield openBlasLinuxPack ]
     nugetPackManually openBlasSolution packs "LICENSE.md" header
+
+let ``Pack OpenBLAS AOCL Linux NuGet`` _ =
+    Directory.create openBlasSolution.OutputNuGetDir
+    let x64Lib = "out/OpenBLAS/AOCL/Linux/x64/libMathNetNumericsOpenBLAS.so"
+    if File.exists x64Lib |> not then failwithf "Missing x64 AOCL library: %s" x64Lib
+    nugetPackManually openBlasSolution [ openBlasAoclLinux64Pack ] "LICENSE.md" header
 
 let ``Pack OpenBLAS OSX Zip`` _ =
     Directory.create openBlasSolution.OutputZipDir
@@ -477,6 +494,8 @@ let initTargets strongname sign incremental =
     "Prepare" ==> "OpenBlasWinBuild" |> ignore
     Target.create "OpenBlasLinuxBuild" ``Build OpenBLAS Linux``
     "Prepare" =?> ("OpenBlasLinuxBuild", Environment.isLinux) |> ignore
+    Target.create "OpenBlasAoclLinuxBuild" ``Build OpenBLAS AOCL Linux``
+    "Prepare" =?> ("OpenBlasAoclLinuxBuild", Environment.isLinux) |> ignore
     Target.create "OpenBlasOsxBuild" ``Build OpenBLAS OSX``
     "Prepare" =?> ("OpenBlasOsxBuild", Environment.isMacOS) |> ignore
     Target.create "AccelerateOsxBuild" ``Build Accelerate OSX``
@@ -548,6 +567,10 @@ let initTargets strongname sign incremental =
     "OpenBlasLinuxNuGet" ==> "OpenBlasLinuxPack" |> ignore
     "OpenBlasLinuxBuild" =?> ("OpenBlasLinuxZip", Environment.isLinux) |> ignore
     "OpenBlasLinuxBuild" =?> ("OpenBlasLinuxNuGet", Environment.isLinux) |> ignore
+    Target.create "OpenBlasAoclLinuxPack" ignore
+    Target.create "OpenBlasAoclLinuxNuGet" ``Pack OpenBLAS AOCL Linux NuGet``
+    "OpenBlasAoclLinuxNuGet" ==> "OpenBlasAoclLinuxPack" |> ignore
+    "OpenBlasAoclLinuxBuild" =?> ("OpenBlasAoclLinuxNuGet", Environment.isLinux) |> ignore
 
     Target.create "OpenBlasOsxPack" ignore
     Target.create "OpenBlasOsxZip" ``Pack OpenBLAS OSX Zip``

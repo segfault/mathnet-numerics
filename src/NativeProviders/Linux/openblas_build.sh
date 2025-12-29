@@ -2,10 +2,12 @@
 
 # Build the OpenBLAS native provider wrapper for Linux.
 # Requires the system packages libopenblas-dev and liblapacke-dev.
+# AOCL is supported via AOCL_ROOT (e.g. /opt/AMD/aocl/aocl-linux-aocc-5.1.0/aocc).
 
 set -eu
 
-export OUT=../../../out/OpenBLAS/Linux
+OUT="${OUT:-../../../out/OpenBLAS/Linux}"
+export OUT
 
 mkdir -p "$OUT/x64"
 
@@ -13,6 +15,27 @@ OPENBLAS_CFLAGS="${OPENBLAS_CFLAGS:-}"
 OPENBLAS_LIBS="${OPENBLAS_LIBS:-}"
 LAPACKE_CFLAGS="${LAPACKE_CFLAGS:-}"
 LAPACKE_LIBS="${LAPACKE_LIBS:-}"
+
+AOCL_ROOT="${AOCL_ROOT:-}"
+AOCL_FORCE="${AOCL_FORCE:-}"
+if [ -z "$AOCL_ROOT" ] && [ -d /opt/AMD/aocl/aocl-linux-aocc-5.1.0/aocc ]; then
+    AOCL_ROOT=/opt/AMD/aocl/aocl-linux-aocc-5.1.0/aocc
+fi
+
+if [ -n "$AOCL_ROOT" ] && { [ "${AOCL_FORCE}" = "1" ] || { [ -z "$OPENBLAS_CFLAGS" ] && [ -z "$OPENBLAS_LIBS" ]; }; }; then
+    AOCL_INT_DIR="LP64"
+    if [ "${AOCL_ILP64:-}" = "1" ]; then
+        AOCL_INT_DIR="ILP64"
+    fi
+    AOCL_INCLUDE="$AOCL_ROOT/include_${AOCL_INT_DIR}"
+    AOCL_LIB="$AOCL_ROOT/lib_${AOCL_INT_DIR}"
+    if [ -d "$AOCL_INCLUDE" ] && [ -d "$AOCL_LIB" ]; then
+        OPENBLAS_CFLAGS="-I$AOCL_INCLUDE -DAOCL_BLIS"
+        OPENBLAS_LIBS="-L$AOCL_LIB -lblis-mt -lblis"
+        LAPACKE_CFLAGS="-I$AOCL_INCLUDE"
+        LAPACKE_LIBS="-L$AOCL_LIB -lflame -lpthread -lm -fopenmp"
+    fi
+fi
 
 if command -v pkg-config >/dev/null 2>&1; then
     OPENBLAS_CFLAGS="${OPENBLAS_CFLAGS:-$(pkg-config --cflags openblas64 2>/dev/null || true)}"

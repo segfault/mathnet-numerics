@@ -14,7 +14,9 @@
         <Title>Math.NET Numerics OpenBLAS Provider$(TitleSuffix)</Title>
         <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.$(DescriptionSuffix)</Description>
         <PackageReleaseNotes>Added macOS Accelerate native packaging support.
-Added OpenBLAS native packaging support for Linux.</PackageReleaseNotes>
+Added OpenBLAS native packaging support for Linux.
+Added OpenBLAS native packaging support for macOS.
+Added AOCL (BLIS/LAPACK) native packaging support for Linux.</PackageReleaseNotes>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
         <NoWarn>1701;1702;1705;1591;1573</NoWarn>

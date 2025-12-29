@@ -14,7 +14,9 @@
         <Title>Math.NET Numerics$(TitleSuffix)</Title>
         <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .NET 5.0 or higher, .NET Standard 2.0 and .NET Framework 4.6.1 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
         <PackageReleaseNotes>Added macOS Accelerate native packaging support.
-Added OpenBLAS native packaging support for Linux.</PackageReleaseNotes>
+Added OpenBLAS native packaging support for Linux.
+Added OpenBLAS native packaging support for macOS.
+Added AOCL (BLIS/LAPACK) native packaging support for Linux.</PackageReleaseNotes>
         <PackageTags>math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <EnableDefaultCompileItems>true</EnableDefaultCompileItems>

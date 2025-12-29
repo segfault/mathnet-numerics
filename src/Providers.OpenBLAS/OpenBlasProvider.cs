@@ -166,6 +166,17 @@ namespace MathNet.Numerics.Providers.OpenBLAS
             if (_nativeIA64) parts.Add("IA64");
             if (_nativeARM) parts.Add("ARM");
             parts.Add("revision " + _nativeRevision);
+            try
+            {
+                var config = SafeNativeMethods.get_build_config();
+                if (!string.IsNullOrEmpty(config))
+                {
+                    parts.Add(config);
+                }
+            }
+            catch
+            {
+            }
 
             return string.Concat("OpenBLAS (", string.Join("; ", parts.ToArray()), ")");
         }

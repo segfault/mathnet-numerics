@@ -41,6 +41,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         const string MklTypeName = "MathNet.Numerics.Providers.MKL.LinearAlgebra.MklLinearAlgebraControl, MathNet.Numerics.Providers.MKL";
         static readonly ProviderProbe<ILinearAlgebraProvider> MklProbe = new ProviderProbe<ILinearAlgebraProvider>(MklTypeName, AppSwitches.DisableMklNativeProvider);
 
+        const string AoclTypeName = "MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra.AoclLinearAlgebraControl, MathNet.Numerics.Providers.OpenBLAS";
+        static readonly ProviderProbe<ILinearAlgebraProvider> AoclProbe = new ProviderProbe<ILinearAlgebraProvider>(AoclTypeName, AppSwitches.DisableOpenBlasNativeProvider);
+
         const string OpenBlasTypeName = "MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra.OpenBlasLinearAlgebraControl, MathNet.Numerics.Providers.OpenBLAS";
         static readonly ProviderProbe<ILinearAlgebraProvider> OpenBlasProbe = new ProviderProbe<ILinearAlgebraProvider>(OpenBlasTypeName, AppSwitches.DisableOpenBlasNativeProvider);
 
@@ -94,6 +97,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         public static void UseNativeMKL() => Provider = MklProbe.Create();
         public static bool TryUseNativeMKL() => TryUse(MklProbe.TryCreate());
 
+        public static void UseNativeAOCL() => Provider = AoclProbe.Create();
+        public static bool TryUseNativeAOCL() => TryUse(AoclProbe.TryCreate());
+
         public static void UseNativeCUDA() => Provider = CudaProbe.Create();
         public static bool TryUseNativeCUDA() => TryUse(CudaProbe.TryCreate());
 
@@ -122,7 +128,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 return false;
             }
 
-            return TryUseNativeMKL() || TryUseNativeOpenBLAS() || TryUseNativeCUDA() || TryUseNativeAccelerate();
+            return TryUseNativeMKL() || TryUseNativeAOCL() || TryUseNativeOpenBLAS() || TryUseNativeCUDA() || TryUseNativeAccelerate();
         }
 
         public static bool TryUse(ILinearAlgebraProvider provider)
@@ -179,6 +185,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             {
                 case "MKL":
                     UseNativeMKL();
+                    break;
+
+                case "AOCL":
+                    UseNativeAOCL();
                     break;
 
                 case "CUDA":
